@@ -1,29 +1,24 @@
 pipeline {
     agent any
-    environment {
-        DOCKER_IMAGE = 'golang:1.23.0'
-        POSTGRES_IMAGE = 'postgres:13'
-        DB_USER = 'postgres'
-        DB_PASSWORD = 'postgres'
-        DB_NAME = 'books_db'
-        DB_HOST = 'postgres-db'
-        DB_PORT = '5432'
-    }
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/vijaymehrotra/Books-API.git'
+                git url: "https://github.com/vijaymehrotra/Books-API.git", branch: 'main'
             }
         }
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'go mod download && go build -o main'
+                sh 'docker build -t go-books .'
             }
         }
-        stage('Run PostgreSQL') {
+        stage('Pushing to docker hub') {
             steps {
-                echo 'Initilizing the DB..'
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh 'docker login -u $USERNAME -p $PASSWORD'
+                    sh 'docker tag go-books $USERNAME/go-books'
+                    sh 'docker push $USERNAME/go-books'
+                }
             }
         }
         stage('Deploy') {

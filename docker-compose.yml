@@ -15,9 +15,7 @@ services:
       - app-network
 
   app:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    image: vijaymehrotra/go-books
     container_name: golang_app_container
     environment:
       DB_HOST: ${DB_HOST}
