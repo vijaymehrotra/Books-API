@@ -38,6 +38,7 @@ func NewConnection(config Config) (*gorm.DB, error) {
 		}
 		time.Sleep(2 * time.Second)
 	}
+	
 	if err != nil {
 		return nil, err
 	}
