@@ -6,16 +6,24 @@ pipeline {
         DB_USER = 'postgres'
         DB_PASSWORD = 'postgres'
         DB_NAME = 'books_db'
+        DB_HOST = 'postgres-db'
+        DB_PORT = '5432'
     }
     stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/vijaymehrotra/Books-API.git'
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Building..'
+                sh 'go mod download && go build -o main'
             }
         }
-        stage('Test') {
+        stage('Run PostgreSQL') {
             steps {
-                echo 'Testing..'
+                echo 'Initilizing the DB..'
             }
         }
         stage('Deploy') {

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 	"vijaymehrotra/go-deploy/models"
 
 	"github.com/joho/godotenv"
@@ -27,7 +28,16 @@ func NewConnection(config Config) (*gorm.DB, error) {
 		config.Host, config.Port, config.Password, config.DBName, config.SSLMode, config.User)
 
 	log.Println("Connecting to database...")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	var db *gorm.DB
+	var err error
+	
+	for i := 0; i < 5; i++ {
+		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		if err == nil {
+			break
+		}
+		time.Sleep(2 * time.Second)
+	}
 	if err != nil {
 		return nil, err
 	}
