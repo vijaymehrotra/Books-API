@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fetch and display the list of books when the page loads
     fetchBooks();
 
-    // Handle form submission to add a new book
+    // Handle form submission to add a new book         
     document.getElementById('add-book-form').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
 

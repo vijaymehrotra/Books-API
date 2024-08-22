@@ -1,7 +1,9 @@
 package routes
 
 import (
+	"log"
 	"vijaymehrotra/go-deploy/controller"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -19,5 +21,5 @@ func SetupRoutes() {
 	app.Delete("/delete_book/:id", controller.DeleteBook)
 	app.Put("/update_book/:id", controller.UpdateBook)
 
-	app.Listen(":3000")
+	log.Fatal(app.Listen(":3000"))
 }
