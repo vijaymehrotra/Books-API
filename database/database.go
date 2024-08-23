@@ -2,7 +2,6 @@ package database
 
 import (
 	// "fmt"
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -25,9 +24,9 @@ type Config struct {
 }
 
 func NewConnection(config Config) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("host=%s port=%s password=%s dbname=%s sslmode=%s user=%s",
-		config.Host, config.Port, config.Password, config.DBName, config.SSLMode, config.User)
-	// dsn := os.Getenv("POSTGRES_URL")
+	// dsn := fmt.Sprintf("host=%s port=%s password=%s dbname=%s sslmode=%s user=%s",
+		// config.Host, config.Port, config.Password, config.DBName, config.SSLMode, config.User)
+	dsn := os.Getenv("POSTGRES_URL")
 
 	log.Println("Connecting to database...")
 	var db *gorm.DB
